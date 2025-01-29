@@ -1,0 +1,39 @@
+{% extends 'laviapp/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-lg rounded">
+        <div class="card-header text-center">
+            <h1>Thank You for Your Purchase!</h1>
+            <p>Your order has been successfully processed.</p>
+        </div>
+        <div class="card-body">
+            <h4>Order Details</h4>
+            <p><strong>Order ID:</strong> {{ order.id }}</p>
+            <p><strong>Order Status:</strong> <span class="badge bg-success">{{ order.status }}</span></p>
+            <p><strong>Total Price:</strong> Rs {{ total_price|floatformat:2 }}</p>
+
+            <h4>Purchased Items</h4>
+            <ul>
+                {% for item in order_items %}
+                    <li>{{ item.item.title }} - Rs {{ item.price }}</li>
+                {% endfor %}
+            </ul>
+
+            <div class="alert alert-success">
+                <p>Thank you! We have sent the download links to your email.{{ email }}</p>
+            </div>
+
+            <!-- Add Button to go to My Orders page -->
+           
+
+
+
+        </div>
+        <div class="card-footer text-center">
+            <a href="{% url 'my_orders' %}" class="btn btn-primary">Go to My Orders</a>
+            <a href="/" class="btn btn-primary">Go Back to Homepage</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

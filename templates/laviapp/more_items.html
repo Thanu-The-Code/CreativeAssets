@@ -1,0 +1,217 @@
+{% extends 'laviapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  /* General Styling for the Page */
+  body {
+    background-color: #121212;
+    color: #f1f1f1;
+  }
+
+  /* Card Styling */
+  .card {
+    border: none;
+    background-color: #1e1e1e;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 10px;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+
+  .card-img-top {
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover .card-img-top {
+    transform: scale(1.1);
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    color: #ff4500;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+
+  .card-price {
+    font-size: 1.1rem;
+    color: #1e90ff;
+    font-weight: bold;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .filter-button {
+    padding: 10px 20px;
+    border: 2px solid #007bff;
+    background: transparent;
+    color: #007bff;
+    border-radius: 5px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+  }
+
+  .filter-button:hover,
+  .filter-button.active {
+    background: #007bff;
+    color: white;
+  }
+
+  h2 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #f1f1f1;
+  }
+
+  /* Tips Section Styling */
+  #tips-section h4 {
+    color: #1abc9c; /* Fresh greenish color for the heading */
+    font-size: 2.2rem;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  #tips-section .tip-card {
+    background-color: #2c3e50;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  #tips-section .tip-card:hover {
+    background-color: #34495e;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+  }
+
+  /* Bulleted List Styling */
+  #tips-section .tip-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #tips-section .tip-card ul li {
+    position: relative;
+    font-size: 0.9rem;  /* Smaller font size */
+    color: #ecf0f1;  /* Soft light color for the text */
+    padding-left: 30px;
+    margin-bottom: 10px;
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  #tips-section .tip-card ul li:before {
+    content: '•';  /* Bullet point style */
+    position: absolute;
+    left: 10px;
+    top: 0;
+    color: #f39c12;  /* Gold color for bullets */
+    font-size: 1.2rem;
+  }
+
+  #tips-section .tip-card .tip-title {
+    font-size: 1.4rem;  /* Smaller font size */
+    font-weight: bold;
+    color: #f39c12;  /* Gold color for the title */
+    margin-bottom: 12px;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .btn-info {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .btn-info:hover {
+    background-color: #0056b3;
+  }
+</style>
+
+<!-- Page Title -->
+<div class="text-center mb-4">
+  <h2>Explore More Items</h2>
+</div>
+
+<!-- Category Filter -->
+<div class="container">
+  <div class="filter-bar">
+    <a href="{% url 'more_items' %}" class="filter-button {% if not selected_category %}active{% endif %}">All</a>
+    {% for category in categories %}
+      <a href="{% url 'filtered_items' category=category %}" class="filter-button {% if selected_category == category %}active{% endif %}">
+        {{ category }}
+      </a>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Product Cards -->
+<div class="container mt-5">
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 d-flex justify-content-center">
+    {% for item in items %}
+      <div class="col">
+        <div class="card">
+          <a href="{% url 'item_detail' pk=item.pk %}">
+            <img src="{{ item.main_image.url }}" class="card-img-top" alt="{{ item.title }}">
+          </a>
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ item.title }}</h5>
+            <p class="card-text" style="color: #ecf0f1;">{{ item.description|truncatewords:10 }}</p>
+            <p class="card-price">Rs. {{ item.price }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center">No items found for this category.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Tips Section (display for the selected category) -->
+<!-- {% if selected_category %}
+  <div class="container mt-5" id="tips-section">
+    <h4>Tips for Using {{ selected_category }} Items</h4>
+    {% for tip in category_tips %}
+      <div class="tip-card">
+        <div class="tip-title">{{ tip.title }}</div>
+        <ul>
+          <li>{{ tip.tips }}</li>
+        </ul>
+      </div>
+    {% empty %}
+      <p>No tips available for this category.</p>
+    {% endfor %}
+  </div>
+{% endif %} -->
+
+<!-- Back to Home Button -->
+<div class="text-center my-4">
+  <a href="{% url 'home' %}" class="btn btn-lg btn-info">Back to Home</a>
+</div>
+
+{% endblock %}

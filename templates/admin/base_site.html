@@ -1,0 +1,146 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}
+    CreativeAssets Admin
+{% endblock %}
+
+{% block extrahead %}
+    {{ block.super }}
+    <!-- Include Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Quicksand:wght@400;500;600&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styling */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        /* Header Customization */
+        #header {
+            background-color: #2a2a72;
+            color: #ffffff;
+            padding: 15px 20px;
+        }
+
+        #header h1 {
+            font-size: 2rem;
+            color: #ffc107;
+            font-weight: bold;
+            display: inline-block;
+            margin: 0;
+        }
+
+        #header .user-tools {
+            float: right;
+        }
+
+        #header .user-tools a {
+            color: #ffc107;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 5px 15px;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        #header .user-tools a:hover {
+            background-color: #ffc107;
+            color: #2a2a72;
+        }
+
+        /* Logout Button */
+        #header .logout-btn {
+            background-color: #ffc107;
+            color: #2a2a72;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        #header .logout-btn:hover {
+            background-color: #e0a800;
+        }
+
+        /* Main Content Styling */
+        .module h2 {
+            color: #2a2a72;
+            font-weight: bold;
+        }
+
+        .module th {
+            background-color: #ffc107;
+            color: #2a2a72;
+        }
+
+        .module td {
+            color: #4a4a4a;
+        }
+
+        .object-tools a {
+            background-color: #ffc107;
+            color: #2a2a72;
+            border-radius: 25px;
+            padding: 5px 10px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .object-tools a:hover {
+            background-color: #e0a800;
+        }
+
+        /* Footer Customization */
+        #footer {
+            background-color: #2a2a72;
+            color: #ffffff;
+            padding: 15px 20px;
+            border-top: 4px solid #ffc107;
+            text-align: center;
+        }
+
+        #footer a {
+            color: #ffc107;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        #footer a:hover {
+            color: #e0a800;
+        }
+    </style>
+{% endblock %}
+
+{% block branding %}
+    <h1>
+        <!-- <img src="{% static 'images/logo.png' %}" alt="CreativeAssets Logo" style="height: 40px; vertical-align: middle;"> -->
+        CreativeAssets Admin
+    </h1>
+{% endblock %}
+
+{% block nav-global %}
+    <div class="user-tools">
+        {% if request.user.is_authenticated %}
+            <span>Welcome, {{ request.user.username }}!</span>
+            <a href="{% url 'admin:logout' %}" class="logout-btn">Logout</a>
+        {% else %}
+            <a href="{% url 'admin:login' %}" class="btn btn-sm btn-warning">Login</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {{ block.super }}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <div id="footer">
+        <p>&copy; 2025 CreativeAssets. All Rights Reserved.</p>
+    </div>
+{% endblock %}

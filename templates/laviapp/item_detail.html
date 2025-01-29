@@ -1,0 +1,156 @@
+{% extends 'laviapp/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Product Details Section -->
+    <div class="row">
+        <div class="col-12">
+            <img id="main-image" src="{{ item.main_image.url }}" class="img-fluid rounded shadow" alt="{{ item.title }}" style="width: 100%; height: auto;">
+        </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <h2 class="fw-bold">{{ item.title }}</h2>
+            <p>{{ item.description }}</p>
+            <h4 class="text-primary">Price: Rs.{{ item.price|floatformat:2 }}</h4>
+            <button class="btn btn-danger buy-now-btn" data-item-id="{{ item.id }}">Buy Now</button>
+        </div>
+    </div>
+
+    <!-- Related Media Section -->
+    <div class="row mt-4">
+        <h3 class="mb-3 text-dark fw-bold">Related Media</h3>
+        <div class="media-carousel d-flex flex-wrap">
+            {% for media in more_images %}
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+                <div class="media-container">
+                    <img 
+                        src="{{ media.image.url }}" 
+                        class="img-fluid rounded shadow-sm media-item" 
+                        alt="Image for {{ item.title }}" 
+                        style="max-width: 100%; height: auto;">
+                </div>
+            </div>
+            {% endfor %}
+            {% for video in more_videos %}
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+                <div class="media-container">
+                    <video 
+                        class="hover-video"
+                        muted 
+                        preload="metadata" 
+                        playsinline>
+                        <source src="{{ video.video.url }}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    /* General Media Container Styling */
+    .media-container {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease-in-out;
+        margin-bottom: 15px; /* Reduced spacing between items */
+    }
+
+    .media-container:hover {
+        transform: scale(1.05);
+    }
+
+    /* Image Styling */
+    .media-container img {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Video Styling */
+    .hover-video {
+        display: block;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        cursor: pointer;
+    }
+
+    /* Main Image Reset */
+    #main-image {
+        max-width: 100%;
+        height: auto;
+        object-fit: cover;
+    }
+
+    /* Additional Row Spacing */
+    .media-carousel {
+        gap: 10px; /* Reduced gap for mobile */
+    }
+
+    /* Responsive Spacing Adjustments */
+    @media (max-width: 576px) {
+        .container {
+            margin-top: 1rem; /* Reduced gap between header and top content */
+        }
+
+        .media-carousel {
+            gap: 5px; /* Tightened gap for related media */
+        }
+
+        .media-container {
+            margin-bottom: 10px; /* Less space between items */
+        }
+
+        .row.mt-4 {
+            margin-top: 2rem; /* Reduced gap above sections */
+        }
+    }
+</style>
+
+<!-- JavaScript for Hover Play -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Handle video hover play
+        const videos = document.querySelectorAll(".hover-video");
+        videos.forEach(video => {
+            video.addEventListener("mouseenter", () => {
+                video.play();
+            });
+            video.addEventListener("mouseleave", () => {
+                video.pause();
+                video.currentTime = 0; // Reset video to the start
+            });
+        });
+
+        // Handle changing the main image on hover
+        const mainImage = document.getElementById('main-image');
+        document.querySelectorAll('.media-item').forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                mainImage.src = this.src;
+            });
+            item.addEventListener('mouseleave', function () {
+                mainImage.src = '{{ item.main_image.url }}';
+            });
+        });
+
+        // Redirect on Buy Now button click
+        const buyNowButtons = document.querySelectorAll('.buy-now-btn');
+        buyNowButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const itemId = this.getAttribute('data-item-id');
+                window.location.href = `/buy-now/${itemId}/`;
+            });
+        });
+    });
+</script>
+
+{% endblock %}

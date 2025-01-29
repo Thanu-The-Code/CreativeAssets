@@ -1,0 +1,24 @@
+<!-- item_list.html -->
+{% extends 'laviapp/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container mt-5">
+    <div class="row">
+      {% for item in items %}
+        <div class="col-md-4">
+          <div class="card">
+            <!-- Link the card to the detail page of the item -->
+            <a href="{% url 'item_detail' item.pk %}">
+              <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+            </a>
+            <div class="card-body">
+              <h5 class="card-title">{{ item.name }}</h5>
+              <p class="card-text">Price: {{ item.price }}</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

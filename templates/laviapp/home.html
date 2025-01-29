@@ -1,0 +1,559 @@
+{% extends 'laviapp/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+
+<!-- Image Slider -->
+<div id="imageSlider" class="carousel slide" data-bs-ride="carousel" style="overflow: hidden;">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="{% static 'images/wedding-album.jpg' %}" class="d-block w-100" alt="Slide 1" style="height: 100%; object-fit: cover;">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/photo-editing.jpg' %}" class="d-block w-100" alt="Slide 2" style="height: 100%; object-fit: cover;">
+    </div>
+    <div class="carousel-item">
+      <img src="{% static 'images/lightroom-presets.jpg' %}" class="d-block w-100" alt="Slide 3" style="height: 100%; object-fit: cover;">
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#imageSlider" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#imageSlider" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<!-- Styles for Responsive Height -->
+<style>
+  /* For larger screens (default height 100vh) */
+  #imageSlider {
+    height: 100vh;
+  }
+
+  /* For medium screens (tablets) */
+  @media (max-width: 992px) {
+    #imageSlider {
+      height: 50vh; /* Adjust height to 50% of the screen */
+    }
+  }
+
+  /* For smaller screens (phones) */
+  @media (max-width: 768px) {
+    #imageSlider {
+      height: 32vh; /* Adjust height to 32% of the screen */
+    }
+  }
+
+
+
+/* Custom CSS for reducing space between containers on mobile */
+@media (max-width: 768px) {
+  .my-5 {
+    margin-top: 1rem !important; /* Reduce the top margin between containers */
+    margin-bottom: 1rem !important; /* Reduce bottom margin for tighter layout */
+  }
+
+  .carousel-item img {
+    height: 60vh; /* Adjust carousel item height for better view on mobile */
+  }
+
+
+  /* Adjust horizontal-slider gap for mobile */
+  .horizontal-slider {
+    gap: 10px !important; /* Reduce gap between items */
+    padding: 10px 0;
+  }
+
+  /* Adjust video container size and spacing */
+  .video-container {
+    width: 45%; /* Reduce the width of video containers for mobile */
+    margin-bottom: 10px; /* Add margin between video containers */
+  }
+
+  /* Ensure images in slider don't take too much space */
+  .slider-item img {
+    height: 180px;
+    object-fit: cover;
+  }
+
+  /* Reduce text size and spacing in the royal fonts section */
+  .container h2 {
+    font-size: 1.5rem;
+  }
+
+  .container h3 {
+    font-size: 1.2rem;
+  }
+
+  .container ul li {
+    font-size: 1rem;
+  }
+
+  /* Adjust the testimonial carousel for smaller screens */
+  #testimonialCarousel .carousel-item {
+    font-size: 0.9rem; /* Make testimonial text smaller */
+  }
+
+  /* Button size adjustments for mobile */
+  .btn-lg {
+    font-size: 1rem; /* Adjust button font size for mobile */
+    padding: 10px 20px;
+  }
+
+  /* Reduce the gap between sections in mobile */
+  .container-fluid.bg-info {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+  /* Image Slider Styling */
+  #imageSlider .carousel-item img {
+    height: 100vh;
+    object-fit: cover;
+  }
+
+  /* Video Slider Styling */
+  #videoSlider .carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+  .btn-success:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+  }
+</style>
+
+<!-- JavaScript -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Automatic Image Slider
+    const imageSlider = new bootstrap.Carousel('#imageSlider', {
+      interval: 3000, // 3 seconds
+      ride: 'carousel',
+    });
+
+  
+  });
+</script>
+
+
+
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">Explore Our Premium Bundles</h2>
+  <div class="horizontal-slider" id="autoSlider">
+    <div class="slider-item">
+      <div class="card">
+        <img src="{% static 'images/photo-editing.jpg' %}" class="card-img-top" alt="Photo Editing Pack">
+        <div class="card-body text-center">
+          <h5 class="card-title">Photo Editing PSD Pack</h5>
+          <p class="card-text">Perfect for photographers looking to streamline their editing process.</p>
+          <!-- <a href="/more-items/photo-editing-pack/" class="btn btn-primary">View Pack</a> -->
+          <a href="/more-items/Photo%20Editing/" class="btn btn-primary">
+            View Pack
+          </a>
+          
+        </div>
+      </div>
+    </div>
+    <div class="slider-item">
+      <div class="card">
+        <img src="{% static 'images/lightroom-presets.jpg' %}" class="card-img-top" alt="Lightroom Presets">
+        <div class="card-body text-center">
+          <h5 class="card-title">Lightroom Presets</h5>
+          <p class="card-text">Enhance your photos with stunning professional presets.</p>
+          <!-- <a href="/more-items/lightroom-presets-pack/" class="btn btn-primary">View Presets</a> -->
+          <a href="/more-items/Lightroom%20Presets/" class="btn btn-primary ">
+            View Presets
+          </a>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="slider-item">
+      <div class="card">
+        <img src="{% static 'images/wedding-album.jpg' %}" class="card-img-top" alt="Wedding Album Pack">
+        <div class="card-body text-center">
+          <h5 class="card-title">Wedding Album Designing PSD Pack</h5>
+          <p class="card-text">Beautiful designs for your special memories.</p>
+          <a href="/more-items/Wedding%20Album/" class="btn btn-primary">
+         view Pack
+          </a>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="slider-item">
+      <div class="card">
+        <img src="{% static 'images/wedding-invitition.jpg' %}" class="card-img-top" alt="Wedding Invitation Pack">
+        <div class="card-body text-center">
+          <h5 class="card-title">Wedding Invitation PSD Pack</h5>
+          <p class="card-text">Elegant wedding invitation designs to impress your guests.</p>
+          <a href="/more-items/Wedding%20Invitation/" class="btn btn-primary ">
+           view Pack
+          </a>        </div>
+      </div>
+    </div>
+    <div class="slider-item">
+      <div class="card">
+        <img src="{% static 'images/photoshop-background.jpg' %}" class="card-img-top" alt="Photoshop Backgrounds">
+        <div class="card-body text-center">
+          <h5 class="card-title">Photoshop Background PSD Pack</h5>
+          <p class="card-text">High-quality backgrounds for your creative projects.</p>
+          <a href="/more-items/Photoshop%20Background/" class="btn btn-primary">
+            View Pack
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom CSS -->
+<style>
+  .my-5 {
+    margin-top: 0rem !important;
+  }
+  .horizontal-slider {
+    display: flex;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    gap: 20px;
+    padding: 10px;
+    scroll-snap-type: x mandatory; /* Enable snap scrolling */
+  }
+
+  .slider-item {
+    flex: 0 0 auto; /* Prevent items from shrinking */
+    scroll-snap-align: start; /* Align items to the start of the viewport */
+    width: 300px; /* Fixed width for cards */
+  }
+
+  .card {
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Add hover shadow */
+  }
+
+  /* Hide scrollbar for the slider */
+  .horizontal-slider::-webkit-scrollbar {
+    display: none;
+  }
+</style>
+
+<!-- Automatic Sliding Script -->
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const slider = document.getElementById("autoSlider");
+    let scrollAmount = 0;
+    let isUserInteracting = false; // Track user interaction
+    let autoSlideInterval;
+    let idleTimer;
+
+    // Function to start auto-sliding
+    function startAutoSlide() {
+      autoSlideInterval = setInterval(() => {
+        if (!isUserInteracting) {
+          scrollAmount += 1; // Scroll pixels at a time
+          if (scrollAmount >= slider.scrollWidth - slider.offsetWidth) {
+            // Reset to the start once the end is reached
+            scrollAmount = 0;
+          }
+          slider.scrollTo({ left: scrollAmount, behavior: "smooth" });
+        }
+      }, 20);
+    }
+
+    // Function to pause auto-sliding
+    function pauseAutoSlide() {
+      clearInterval(autoSlideInterval);
+    }
+
+    // Event listener for manual sliding
+    slider.addEventListener("scroll", () => {
+      isUserInteracting = true;
+      pauseAutoSlide();
+      clearTimeout(idleTimer);
+
+      // Resume auto-sliding after 3 seconds of inactivity
+      idleTimer = setTimeout(() => {
+        isUserInteracting = false;
+        startAutoSlide();
+      }, 3000);
+    });
+
+    // Start auto-sliding initially
+    startAutoSlide();
+  });
+</script>
+
+
+
+<!-- Video Showcase Section -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">Invitation Videos</h2>
+  <div class="d-flex justify-content-center gap-3">
+    <!-- Video 1 -->
+    <div class="video-container">
+      <video class="hover-video" muted>
+        <source src="{% static 'images/01.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <!-- Video 2 -->
+    <div class="video-container">
+      <video class="hover-video" muted>
+        <source src="{% static 'images/02.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <!-- Video 3 -->
+    <div class="video-container">
+      <video class="hover-video" muted>
+        <source src="{% static 'images/03.mp4' %}" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  </div>
+
+  <!-- Button to Wedding Invitation -->
+  <div class="text-center mt-4">
+    <a href="/more-items/Wedding%20Invitation/" class="btn btn-primary btn-lg">
+      Go to Wedding Invitation
+    </a>
+  </div>
+</div>
+
+<!-- Custom CSS for Video Section -->
+<style>
+  .video-container {
+    width: 30%;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+  }
+
+  .video-container:hover {
+    transform: scale(1.05);
+  }
+
+  .hover-video {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    cursor: pointer;
+  }
+</style>
+
+<!-- JavaScript for Hover Play -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const videos = document.querySelectorAll(".hover-video");
+
+    videos.forEach(video => {
+      // Play video on hover
+      video.addEventListener("mouseover", () => {
+        video.play();
+      });
+
+      // Pause video when not hovering
+      video.addEventListener("mouseout", () => {
+        video.pause();
+        video.currentTime = 0; // Reset to the beginning
+      });
+    });
+  });
+</script>
+
+
+<!-- Before & After Slider Section -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">See the Magic of Editing</h2>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="before-after-container">
+        <img src="{% static 'images/b.jpg' %}" class="img-fluid" alt="Before Editing">
+        <div class="after-container">
+          <img src="{% static 'images/a.png' %}" class="img-fluid" alt="After Editing">
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <p>Experience the difference with our Photo Editing Packs and Lightroom Presets.</p>
+        <a href="/more-items/Lightroom%20Presets" class="btn btn-primary">
+          View Pack
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Royal Fonts Pack Section -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">Unleash Elegance with Royal Fonts Pack</h2>
+  <div class="row align-items-center">
+    <!-- Image Section -->
+    <div class="col-md-6">
+      <img src="{% static 'images/fonts.jpg' %}" class="img-fluid rounded" alt="Royal Fonts Pack">
+    </div>
+    <!-- Content Section -->
+    <div class="col-md-6">
+      <h3 class="mb-3">Transform Your Designs with Sophistication</h3>
+      <p>
+        Our <strong>Royal Fonts Pack</strong> offers an exquisite selection of premium fonts, perfect for:
+      </p>
+      <ul>
+        <li>Wedding Invitations</li>
+        <li>Luxury Branding</li>
+        <li>High-End Marketing Materials</li>
+        <li>Elegant Typography Projects</li>
+      </ul>
+      <p>
+        Designed for creatives, this collection ensures your projects exude class and refinement.
+      </p>
+      <a href="/more-items/Royal%20Fonts/" class="btn btn-primary">
+        Discover the Pack
+      </a>
+      <!-- <a href="/more-items/royal-fonts-pack/" class="btn btn-primary">Discover the Pack</a> -->
+    </div>
+  </div>
+</div>
+
+<!-- Custom CSS for Royal Fonts Section -->
+<style>
+  .container h2 {
+    font-family: 'Playfair Display', serif; /* Add a classy font style */
+    font-weight: bold;
+  }
+
+  .container ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .container ul li {
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+  }
+
+  .container ul li::before {
+    content: '✓'; /* Use a checkmark icon for bullets */
+    color: #007bff;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+  .btn-primary {
+    background-color: #6a5acd;
+    border: none;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+  }
+
+  .btn-primary:hover {
+    background-color: #483d8b;
+    transform: scale(1.05);
+  }
+</style>
+
+
+<div class="container my-5">
+  <h2 class="text-center mb-4">What Our Customers Say</h2>
+  <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="text-center">
+          <p>"The Lightroom presets I bought have completely transformed my photography. I can now edit my photos in minutes, and they look amazing!"</p>
+          <h5>- John Doe, Photographer</h5>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="text-center">
+          <p>"I love the wedding album designs. The templates are beautiful, and my clients are always impressed!"</p>
+          <h5>- Jane Smith, Wedding Planner</h5>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <div class="text-center">
+          <p>"The Photoshop background PSDs made my graphic design process much easier. Highly recommend!"</p>
+          <h5>- Alex Brown, Designer</h5>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+</div>
+
+<!-- Call to Action Banner Section -->
+<div class="container-fluid bg-info text-white py-5 text-center">
+  <h2>Get the Best Digital Products Today!</h2>
+  <p>Explore our range of professional tools and templates to elevate your work. Whether you're a photographer, designer, or wedding planner, we've got something for you.</p>
+  <a href="{% url 'more_items' %}" class="btn btn-light btn-lg">Shop Now</a>
+</div>
+
+<!-- Custom Styles -->
+<style>
+
+
+
+  .before-after-container {
+    position: relative;
+    overflow: hidden;
+    height: 350px;
+  }
+  .after-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    clip-path: inset(0 0 0 50%);
+    transition: clip-path 0.5s ease-in-out;
+  }
+  .before-after-container:hover .after-container {
+    clip-path: inset(0);
+  }
+
+  .trending-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  .trending-card img {
+    transition: transform 0.3s ease;
+  }
+  .trending-card:hover img {
+    transform: scale(1.1);
+  }
+
+  .carousel-item {
+    transition: transform 0.3s ease;
+  }
+</style>
+
+{% endblock %}

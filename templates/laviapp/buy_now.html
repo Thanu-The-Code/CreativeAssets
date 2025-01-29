@@ -1,0 +1,14 @@
+<!-- buy_now.html -->
+{% extends 'base_generic.html' %}
+
+{% block content %}
+<h2>Confirm Purchase</h2>
+
+<p>You are about to buy: {{ item.title }}</p>
+<p>Price: ₹{{ item.price }}</p>
+
+<form action="{% url 'order_confirmation' order_id=order.id %}" method="POST">
+    {% csrf_token %}
+    <button type="submit">Confirm Purchase</button>
+</form>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'laviapp/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-lg rounded">
+        <div class="card-header text-center">
+            <h1>My Orders</h1>
+        </div>
+        <div class="card-body">
+            <!-- Form to input email or mobile number -->
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="identifier" class="form-label">Enter your Email or Mobile Number</label>
+                    <input type="text" name="identifier" id="identifier" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">View Orders</button>
+            </form>
+            <hr>
+            {% if error %}
+                <p class="text-danger">{{ error }}</p>
+            {% endif %}
+            {% if orders %}
+                <ul>
+                    {% for order in orders %}
+                        <li>
+                            <strong>Order ID:</strong> {{ order.id }}<br>
+                            <strong>Status:</strong> {{ order.get_status_display }}<br>
+                            <strong>Total:</strong> Rs {{ order.total_price }}<br>
+
+                            {% for order_item in order.items.all %}
+                                <div>
+                                    <strong>Item:</strong> {{ order_item.item.title }}<br>
+
+                                    <!-- Button to View Item Details -->
+                                    <a href="{% url 'item_detail' order_item.item.id %}" class="btn btn-primary mt-3">
+                                        View Item Details
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </li>
+                        <hr>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p style="text-align: center;">No orders found.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

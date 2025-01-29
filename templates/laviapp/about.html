@@ -1,0 +1,47 @@
+{% extends 'laviapp/base.html' %}
+{% load static %}
+
+{% block title %}About Us - CreativeAssets{% endblock %}
+
+{% block content %}
+  <section class="container py-5" style="background-color: #f0f8ff;"> 
+    <div class="row align-items-center">
+      <div class="col-md-6 mb-4">
+        <img src="{% static 'images/lavi.jpg' %}" class="img-fluid rounded shadow-lg" alt="About Us Image">
+      </div>
+      <div class="col-md-6">
+        <h2 class="text-primary" style="font-family: 'Arial', sans-serif;">Welcome to CreativeAssets</h2>
+        <p style="color: #333; font-size: 1.1rem;">
+          Welcome to CreativeAssets, where creativity meets professionalism! As a passionate photographer and digital product creator, I offer a range of high-quality tools and resources to help photographers, designers, and creatives bring their visions to life. Whether you're a professional or a hobbyist, you'll find everything you need to elevate your work and create stunning results.
+        </p>
+        <h4 class="text-secondary">Our Premium Digital Products</h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">📸 Photo Editing PSD Packs: Perfect for adding a professional touch to your photos with easy-to-use Photoshop files.</li>
+          <li class="list-group-item">🎨 Lightroom Presets: Give your photos a beautiful, consistent look in just one click with my custom-designed Lightroom presets.</li>
+          <li class="list-group-item">💍 Wedding Album Designing Packs: Create unforgettable wedding albums with elegant and unique templates tailored for wedding photography.</li>
+          <li class="list-group-item">🎬 Wedding Invitation Video Packs: Design captivating wedding invitation videos that set the tone for the big day.</li>
+          <li class="list-group-item">🌄 Photoshop Background PSDs: Enhance your images with professionally designed backgrounds that complement any scene.</li>
+          <li class="list-group-item">✨ Royal Fonts Packs: Add a touch of elegance to your designs with high-quality fonts that are perfect for invitations, branding, and more.</li>
+        </ul>
+
+        <p class="mt-4" style="color: #333; font-size: 1.1rem;">
+          As a professional photographer, I understand the importance of quality and convenience in the creative process. That’s why I’ve curated these products to not only meet but exceed the expectations of photographers and designers who strive to make their work stand out.
+        </p>
+        <p style="color: #333;">
+          Whether you're designing a wedding album, editing photos for clients, or crafting invitations for a special event, you’ll find the tools you need right here. Every product is designed to save you time, enhance your creativity, and help you deliver your best work.
+        </p>
+        <p class="mt-4" style="font-size: 1.2rem; color: #555;">
+          Thank you for visiting CreativeAssets. I’m excited to be part of your creative journey!
+        </p>
+
+        <h4 class="text-info mt-5">Why Choose Us?</h4>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">📷 High-quality, professional-grade products</li>
+          <li class="list-group-item">🎯 Expert advice and recommendations tailored to your needs</li>
+          <li class="list-group-item">🚚 Fast shipping and secure transactions</li>
+          <li class="list-group-item">🔄 Hassle-free returns and exchanges</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+{% endblock %}

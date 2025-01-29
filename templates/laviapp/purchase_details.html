@@ -1,0 +1,164 @@
+{% extends 'laviapp/base.html' %} {% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <!-- Product Details -->
+      <img
+        src="{{ item.main_image.url }}"
+        class="img-fluid rounded shadow"
+        alt="{{ item.title }}"
+      />
+      <h2 class="fw-bold">{{ item.title }}</h2>
+      <p>{{ item.description }}</p>
+      <h4 class="text-primary">Price: Rs. {{ item.price|floatformat:2 }}</h4>
+    </div>
+
+    <div class="col-md-6">
+      <h3 class="text-center">Enter Your Details</h3>
+      <form method="POST" id="payment-form">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+          <label for="full_name">Full Name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="full_name"
+            name="full_name"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="mobile_number">Mobile Number</label>
+          <input
+            type="text"
+            class="form-control"
+            id="mobile_number"
+            name="mobile_number"
+            pattern="[0-9]{10}"
+            title="Enter a valid 10-digit mobile number"
+            required
+          />
+        </div>
+        <div class="form-group mb-3">
+          <label for="email">Email ID</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            required
+          />
+        </div>
+
+        <button type="button" class="btn btn-danger mt-4" id="proceed-to-pay">
+          Proceed to Pay
+        </button>
+      </form>
+
+      <!-- Show Error Message if Payment Failed -->
+      {% if error_message %}
+      <div class="alert alert-danger mt-3">
+        <strong>Error:</strong> {{ error_message }}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Razorpay Payment Integration -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  <script>
+    document.querySelector("#proceed-to-pay").onclick = function (e) {
+      e.preventDefault();
+
+      const fullName = document.querySelector("#full_name").value.trim();
+      const mobileNumber = document
+        .querySelector("#mobile_number")
+        .value.trim();
+      const email = document.querySelector("#email").value.trim();
+
+      if (!fullName || !mobileNumber || !email) {
+        alert("Please fill in all the fields.");
+        return;
+      }
+
+      fetch("{% url 'create_razorpay_order' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body: JSON.stringify({
+          total_amount: "{{ item.price|floatformat:2 }}",
+          item_id: "{{ item.id }}",
+          email: email,
+          full_name: fullName,
+          mobile_number: mobileNumber,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            const options = {
+              key: "{{ razorpay_key }}",
+              amount: data.amount,
+              currency: "INR",
+              order_id: data.order_id,
+              name: "",
+              description: "Purchase",
+              image: "",
+              handler: function (response) {
+                // On successful payment, send data to the server
+                fetch("{% url 'razorpay_success' %}", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                  },
+                  body: JSON.stringify({
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                    email: email,
+                  }),
+                })
+                  .then((response) => response.json())
+                  .then((data) => {
+                    if (data.success) {
+                      // Redirect to success page
+                      window.location.href = `/success/?order_id=${data.order_id}`;
+                    } else {
+                      alert(
+                        data.message ||
+                          "Payment verification failed. Please contact support."
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    console.error("Error:", error);
+                    alert("An error occurred. Please try again.");
+                  });
+              },
+              prefill: {
+                name: fullName,
+                email: email,
+                contact: mobileNumber,
+              },
+              theme: {
+                color: "#528FF0",
+              },
+            };
+
+            const rzp1 = new Razorpay(options);
+            rzp1.open();
+          } else {
+            alert(data.message || "An unknown error occurred.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          alert("There was an error processing the payment. Please try again.");
+        });
+    };
+  </script>
+</div>
+{% endblock %}

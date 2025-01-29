@@ -1,0 +1,29 @@
+{% extends 'laviapp/base.html' %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="card shadow-lg rounded">
+        <div class="card-header text-center">
+            <h1>{{ stage_title }}</h1>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                {% if stage == "email_verification" %}
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
+                        <input type="email" name="email" id="email" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send OTP</button>
+                {% elif stage == "otp_verification" %}
+                    <div class="mb-3">
+                        <label for="otp" class="form-label">OTP</label>
+                        <input type="text" name="otp" id="otp" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verify</button>
+                {% endif %}
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
